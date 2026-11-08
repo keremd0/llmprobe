@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmprobe"
+version = "0.1.0"
+description = "Security testing framework for LLM-powered applications: prompt injection, system prompt leakage, data disclosure and excessive agency."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "keremd0" }]
+keywords = ["security", "llm", "prompt-injection", "red-team", "owasp", "pentest"]
+dependencies = [
+    "httpx>=0.27",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+demo = ["fastapi>=0.110", "uvicorn>=0.29"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "fastapi>=0.110", "uvicorn>=0.29"]
+
+[project.scripts]
+llmprobe = "llmprobe.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["llmprobe*"]
+
+[tool.setuptools.package-data]
+llmprobe = ["payloads/*.yaml"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = ["."]

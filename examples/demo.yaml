@@ -1,0 +1,19 @@
+# Scan the bundled vulnerable demo app:
+#   uvicorn demo.vulnerable_app.app:app --port 8765
+#   llmprobe scan -c examples/demo.yaml
+target:
+  type: http
+  name: VulnBot demo
+  url: http://127.0.0.1:8765/chat
+  method: POST
+  body:
+    message: "{{prompt}}"
+    document: "{{document}}"
+  response_path: reply
+  tool_calls_path: tool_calls
+  canaries:
+    - CANARY-7f3a91
+
+scan:
+  mutators: [identity, base64, payload_split, roleplay, rot13]
+  concurrency: 8
